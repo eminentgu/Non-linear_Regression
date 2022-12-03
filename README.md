@@ -7,6 +7,7 @@
 * **对于环境及文件的说明**：
     1. 全文使用JupyterNotebook编写，文字阐述使用markdown编写，代码使用python 3.8.8编译。
     2. 部分重要文件解释：
+    
     |文件名|内容|
     |:--|:---|
     |正式版.ipynb |源文件，包含了markdown书写的文字声明和python程序源码，请使用JupyterNotebook打开，或VScode（不推荐）查看|
@@ -35,9 +36,10 @@
 * 局部多项式回归将对如下的要点进行说明：
   1. **核心思想**——核函数加权+最小二乘法处理局部数据：类似k邻近的思路，以点为单位，给周围的点加权，在利用最小二乘法来估计该点的值，使得原始的数据可以逐步变得平滑，通俗的理解是，原始的数据集可以视为过拟合的，于是通过不断地将点与周围的点进行计算，使得数据之间的联系更为平滑，从而提高模型的泛用性,如图一：<img src="picture1.png" alt="Drawing" style="width: 50%;" align="center"/>
   
-  2. **具体过程**：首先对选定窗区间$x\in N_i$内的数据，采用核函数赋权重,使得离当前点$x_i$越近的点对$x_i$的影响越大，即权重越大，离当前点$x_i$越远的点对$x_i$的影响越小，即权重越小，这里采用了高斯核函数，$\sigma$为超参数，用于控制权重的影响：
+  2. **具体过程**：首先对选定窗区间 $x\in N_i$ 内的数据，采用核函数赋权重,使得离当前点 $x_i$ 越近的点对 $x_i$ 的影响越大，即权重越大，离当前点 $x_i$ 越远的点对 $x_i$ 的影响越小，即权重越小，这里采用了高斯核函数， $\sigma$ 为超参数，用于控制权重的影响：
   
-    $$ K(x_j,x_i)=K(||x_j-x_i||)=e^{-\frac{(x_j-x_i)^2}{2 \sigma^2}},即w_j=\frac{e^{-\frac{(x_j-x_i)^2}{2 \sigma^2}}}{\sqrt{2\pi}\sigma}$$
+    $$K(x_j,x_i)=K(||x_j-x_i||)=e^{-\frac{(x_j-x_i)^2}{2 \sigma^2}}$$ 
+    即 $$w_j=\frac{e^{-\frac{(x_j-x_i)^2}{2 \sigma^2}}}{\sqrt{2\pi}\sigma} $$
   
     接着，确定局部多项式回归的多项式模型,这里使用的多项式模型为：
   
@@ -62,13 +64,12 @@
 * 样条回归将对如下的要点进行说明：
     1. **核心思想**——寻找合适的控制节点，连接形成分段多项式曲线，对多项式曲线进行最小二乘法确定最佳参数
     
-    2. **具体过程**：首先使用分段函数确定控制节点(knot)，选取k个控制节点，$a_1,a_2,...,a_k,其中a_1<a_2<...<a_k$，则线性样条回归为:
-    
-       $$y=\beta_0+\beta_1x+w_1(x-a_1)_++w_2(x-a_2)_++...=w_k(x-a_k)_+$$
-    
+    2. **具体过程**：首先使用分段函数确定控制节点(knot)，选取k个控制节点, $a_1,a_2,...,a_k$ ,其中 $a_1\&lt a_2\&lt ...\&lt a_k$ ，则线性样条回归为: 
+       ![](http://latex.codecogs.com/svg.latex?y=\beta_0+\beta_1x+w_1(x-a_1)_++w_2(x-a_2)_++...=w_k(x-a_k)_+)
+       
        可以写出设计矩阵
     
-       $$G=\begin{bmatrix}1&x_1&(x_1-a_1)_+&...&(x_1-a_k)_+\\1&x_x&(x_2-a_1)_+&...&(x_2-a_k)_+\\.&.&.&&.\\.&.&.&&.\\.&.&.&&.\\1&x_n&(x_n-a_1)_+&...&(x_n-a_k)_+\end{bmatrix}$$
+       ![](http://latex.codecogs.com/svg.latex?G=\begin{bmatrix}1&x_1&(x_1-a_1)_+&...&(x_1-a_k)_+\\1&x_x&(x_2-a_1)_+&...&(x_2-a_k)_+\\.&.&.&&.\\.&.&.&&.\\.&.&.&&.\\1&x_n&(x_n-a_1)_+&...&(x_n-a_k)_+\end{bmatrix})
     
        令参数向量
     
@@ -80,11 +81,11 @@
     
        使用最小二乘法可以求出最优的参数
     
-       $$w=(G^TG)^{-1}G^Ty$$
+       $$w=(G^TG)^{-1}G^Ty $$
     
        控制节点的选择影响模型的拟合性能，选取过多可能会造成过拟合，反之过少的节点会造成欠拟合，因此，引入惩罚的概念来控制节点数过多，采用带惩罚的线性样条回归:
     
-       $$\underset{w}{min}\sum^n_{i=1}(y-(\beta_0+\beta_1x_i+\sum^k_{j=1}w_j(x_i-a_j)_+))^2+\lambda\sum^k_{j=1}w_j^2，\lambda为惩罚系数$$
+        ![](http://latex.codecogs.com/svg.latex?\underset{w}{min}\sum^n_{i=1}(y-(\beta_0+\beta_1x_i+\sum^k_{j=1}w_j(x_i-a_j)_+))^2+\lambda\sum^k_{j=1}w_j^2) $$\lambda为惩罚系数$$
     
     3. **样条回归与最小二乘法的关系**：样条回归中利用最小二乘法获得最佳的参数，不同于线性回归对整个模型进行最小二乘，样条回归使用多个最小二乘法分段进行拟合。
     
@@ -94,20 +95,20 @@
 * 概述：多元自适应回归样条，Multivariate Adaptive Regression Splines（下文统称MARS）,可以理解为是多维数据集上的样条回归，思路依然是利用基函数划定区域，在区域做回归拟合，可以有效的处理多维数据之间的关系。
 
 * MARS将对如下的要点进行说明：
-    1. **分区算法**：分区,即为样条回归中的分段的过程，采用递归分区算法，即不断地向下细分，直到找到合适量的控制节点，但是递归分区会出现边缘不连续和难以逼近简单的数据，因此采用了等效模型,其中，$R_m$为整个区域，$g_m$为分区函数:
+    1. **分区算法**：分区,即为样条回归中的分段的过程，采用递归分区算法，即不断地向下细分，直到找到合适量的控制节点，但是递归分区会出现边缘不连续和难以逼近简单的数据，因此采用了等效模型,其中， $R_m$ 为整个区域， $g_m$ 为分区函数:
     
        $$x\in R_m,则f\hat (x)=g_m(x|\{a_j\}^p_1)$$
     
        则分区的基函数为：
     
-       $$B^{(q)}_m(X)=\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]^q_+$$
+       ![](http://latex.codecogs.com/svg.latex?B^{(q)}_m(X)=\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]^q_+})
     
-       其中，$K_m$是$B_m$的分区数目，$S_{km}$的值是1或-1，反应了当前分区使用的多项式的方向，q反映了当前分区使用的多项式的阶，v是预测变量，t是预测变量的值。
+       其中， $K_m$ 是 $B_m$ 的分区数目， $S_{km}$ 的值是1或-1，反应了当前分区使用的多项式的方向，q反映了当前分区使用的多项式的阶，v是预测变量，t是预测变量的值。
     
     分区的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman）：<img src="picture7.png" alt="Drawing" style="width: 90%;" align="center"/>
     2. **MARS算法**：经过分区的模型可以被改写为：
     
-      $$\hat f(x)=a_0+\sum^M_{m=1}a_m\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]_+$$
+      ![](http://latex.codecogs.com/svg.latex?\hat f(x)=a_0+\sum^M_{m=1}a_m\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]_+)
     
       对于这个模型，分区域进行方差分析，再根据结果进行基函数（分区方式）的选择，最后进行调整，是模型更连续平滑，优化控制节点数目，形成最终的结果。
       MARS算法的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman）：<img src="picture8.png" alt="Drawing" style="width: 80%;" align="center"/><img src="picture9.png" alt="Drawing" style="width: 60%;" align="center"/>
@@ -150,8 +151,8 @@ plt.show()
 
 
 * 局部多项式回归函数
-    1. 采用了高斯核$w_j=\frac{e^{-\frac{(x_j-x_i)^2}{2 \sigma^2}}}{\sqrt{2\pi}\sigma}$
-    2. 用矩阵的方式计算加权最小二乘法的系数为：$coef=(X^TWX)^{-1}X^TWY$
+    1. 采用了高斯核 $w_j=\frac{e^{-\frac{(x_j-x_i)^2}{2 \sigma^2}}}{\sqrt{2\pi}\sigma}$
+    2. 用矩阵的方式计算加权最小二乘法的系数为： $coef=(X^TWX)^{-1}X^TWY$
 
 
 ```python
