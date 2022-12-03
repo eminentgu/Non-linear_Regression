@@ -65,9 +65,12 @@
     1. **核心思想**——寻找合适的控制节点，连接形成分段多项式曲线，对多项式曲线进行最小二乘法确定最佳参数
     
     2. **具体过程**：首先使用分段函数确定控制节点(knot)，选取k个控制节点, $a_1,a_2,...,a_k$ ,其中 $a_1\&lt a_2\&lt ...\&lt a_k$ ，则线性样条回归为: 
-       ![](http://latex.codecogs.com/svg.image?y=\beta_0+\beta_1x+w_1(x-a_1)_++w_2(x-a_2)_++...=w_k(x-a_k)_+)
+    
+       ![](https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/github_latex_bug_1.svg)
+       
        可以写出设计矩阵
-       ![](http://latex.codecogs.com/svg.image?G=\begin{bmatrix}1&x_1&(x_1-a_1)_+&...&(x_1-a_k)_+\\1&x_x&(x_2-a_1)_+&...&(x_2-a_k)_+\\.&.&.&&.\\.&.&.&&.\\.&.&.&&.\\1&x_n&(x_n-a_1)_+&...&(x_n-a_k)_+\end{bmatrix})
+       
+       ![](https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/github_latex_bug_2.svg)
     
        令参数向量
     
@@ -83,7 +86,7 @@
     
        控制节点的选择影响模型的拟合性能，选取过多可能会造成过拟合，反之过少的节点会造成欠拟合，因此，引入惩罚的概念来控制节点数过多，采用带惩罚的线性样条回归:
     
-        ![](http://latex.codecogs.com/svg.latex?\underset{w}{min}\sum^n_{i=1}(y-(\beta_0+\beta_1x_i+\sum^k_{j=1}w_j(x_i-a_j)_+))^2+\lambda\sum^k_{j=1}w_j^2) $$\lambda为惩罚系数$$
+        ![](https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/github_latex_bug_3.svg) $\lambda为惩罚系数$
     
     3. **样条回归与最小二乘法的关系**：样条回归中利用最小二乘法获得最佳的参数，不同于线性回归对整个模型进行最小二乘，样条回归使用多个最小二乘法分段进行拟合。
     
@@ -99,18 +102,19 @@
     
        则分区的基函数为：
     
-       ![](http://latex.codecogs.com/svg.latex?B^{(q)}_m(X)=\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]^q_+})
+       ![](https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/github_latex_bug_4.svg)
     
        其中， $K_m$ 是 $B_m$ 的分区数目， $S_{km}$ 的值是1或-1，反应了当前分区使用的多项式的方向，q反映了当前分区使用的多项式的阶，v是预测变量，t是预测变量的值。
     
-    分区的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman）：<img src="picture7.png" alt="Drawing" style="width: 90%;" align="center"/>
-    2. **MARS算法**：经过分区的模型可以被改写为：
+    分区的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman）：
+    <img src="picture7.png" alt="Drawing" style="width: 90%;" align="center"/>
     
-      ![](http://latex.codecogs.com/svg.latex?\hat f(x)=a_0+\sum^M_{m=1}a_m\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]_+)
-    
-      对于这个模型，分区域进行方差分析，再根据结果进行基函数（分区方式）的选择，最后进行调整，是模型更连续平滑，优化控制节点数目，形成最终的结果。
-      MARS算法的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman）：<img src="picture8.png" alt="Drawing" style="width: 80%;" align="center"/><img src="picture9.png" alt="Drawing" style="width: 60%;" align="center"/>
-
+    2. **MARS算法**：经过分区的模型可以被改写为
+   $$\hat f(x)=a_0+\sum^M_{m=1}a_m\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]_+$$
+   对于这个模型，分区域进行方差分析，再根据结果进行基函数（分区方式）的选择，最后进行调整，是模型更连续平滑，优化控制节点数目，形成最终的结果。 
+    MARS算法的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman): 
+    <img src="picture8.png" alt="Drawing" style="width: 80%;" align="center"/>
+    <img src="picture9.png" alt="Drawing" style="width: 60%;" align="center"/>
 ## 题一 使用局部多项式回归处理mcycle数据集
 ----
 
