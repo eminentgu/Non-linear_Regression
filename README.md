@@ -113,7 +113,7 @@
    
      
    
-     ![](https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/github_latex_bug_4.svg)
+     ![](https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/github_latex_bug_5.svg)
    
      
    
