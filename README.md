@@ -49,10 +49,10 @@
     $$\underset{a_n(x_i)}{argmin}f(x)=\sum_{j\in N_i}W_j[y_j-\sum^N_{i=0}a_n(x_i)x_j^n]^2$$
   
   3. **窗宽的影响**：窗宽决定了当前点受周围点影响的范围，窗宽变大时，会缩小局部范围内趋势的变化，使得模型向欠拟合方向变化，窗宽变小时，当前点位置的参数会更聚焦于局部范围内的变化，使得模型向过拟合方向变化，如图二，窗宽为3，极小的时候，模型呈严重的过拟合状态，为50，极大的时候，模型呈严重的欠拟合状态，因此需要寻找到合适的窗宽，实践中可以考虑网格搜索最佳的窗宽超参数。
-    <img src="picture2.png" alt="Drawing" style="width: 60%;" align="center"/>
+      <img src="picture2.png" alt="Drawing" style="width: 60%;" align="center"/>
   
   4. **核函数的选取**：核函数的作用是处理加权最小二乘法中的加权部分，不同的核函数对数据的加权不同，对于这里处理的少量一维的mcycle数据集，采用局部性较强的高斯核函数效果较好，在遇到需要加速计算的时候，可以使用计算相对较快的 $Expanechnikov ：\frac{3}{4}(1-u^2)I(|u|<=1)$ ，图三展示了不同的核在mcycle数据集上的表现，可以看到对于一维的简单数据，不同的核的表现都是不错的。
-    <img src="picture3.png" alt="Drawing" style="width: 50%;" align="center"/>
+      <img src="picture3.png" alt="Drawing" style="width: 50%;" align="center"/>
 
 ## 样条回归及多元自适应样条回归
 ---
@@ -110,11 +110,17 @@
     <img src="picture7.png" alt="Drawing" style="width: 90%;" align="center"/>
     
     2. **MARS算法**：经过分区的模型可以被改写为
-   $$\hat f(x)=a_0+\sum^M_{m=1}a_m\prod^{K_m}_{k=1}[s_{km}(x_{v(k,m)}-t_{km})]_+$$
-   对于这个模型，分区域进行方差分析，再根据结果进行基函数（分区方式）的选择，最后进行调整，是模型更连续平滑，优化控制节点数目，形成最终的结果。 
-    MARS算法的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman): 
-    <img src="picture8.png" alt="Drawing" style="width: 80%;" align="center"/>
-    <img src="picture9.png" alt="Drawing" style="width: 60%;" align="center"/>
+   
+     
+   
+     ![](https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/github_latex_bug_4.svg)
+   
+     
+   
+     对于这个模型，分区域进行方差分析，再根据结果进行基函数（分区方式）的选择，最后进行调整，是模型更连续平滑，优化控制节点数目，形成最终的结果。 
+      MARS算法的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman): 
+      <img src="picture8.png" alt="Drawing" style="width: 80%;" align="center"/>
+      <img src="picture9.png" alt="Drawing" style="width: 60%;" align="center"/>
 ## 题一 使用局部多项式回归处理mcycle数据集
 ----
 
