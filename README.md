@@ -34,7 +34,7 @@
 * 概述：局部多项式回归是一种非线性的回归模型，基于核函数加权进行最小二乘法处理局部数据的思路，对每个样本点，在其前后选取窗口做区间的线性回归，从而可以较好的处理呈非线性关系的数据
 
 * 局部多项式回归将对如下的要点进行说明：
-  1. **核心思想**——核函数加权+最小二乘法处理局部数据：类似k邻近的思路，以点为单位，给周围的点加权，在利用最小二乘法来估计该点的值，使得原始的数据可以逐步变得平滑，通俗的理解是，原始的数据集可以视为过拟合的，于是通过不断地将点与周围的点进行计算，使得数据之间的联系更为平滑，从而提高模型的泛用性,如图一：<img src="picture1.png" alt="Drawing" style="width: 50%;" align="center"/>
+  1. **核心思想**——核函数加权+最小二乘法处理局部数据：类似k邻近的思路，以点为单位，给周围的点加权，在利用最小二乘法来估计该点的值，使得原始的数据可以逐步变得平滑，通俗的理解是，原始的数据集可以视为过拟合的，于是通过不断地将点与周围的点进行计算，使得数据之间的联系更为平滑，从而提高模型的泛用性,如图一：<img src="https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/picture1.png" alt="Drawing" style="width: 50%;" align="center"/>
   
   2. **具体过程**：首先对选定窗区间 $x\in N_i$ 内的数据，采用核函数赋权重,使得离当前点 $x_i$ 越近的点对 $x_i$ 的影响越大，即权重越大，离当前点 $x_i$ 越远的点对 $x_i$ 的影响越小，即权重越小，这里采用了高斯核函数， $\sigma$ 为超参数，用于控制权重的影响：
   
@@ -49,10 +49,10 @@
     $$\underset{a_n(x_i)}{argmin}f(x)=\sum_{j\in N_i}W_j[y_j-\sum^N_{i=0}a_n(x_i)x_j^n]^2$$
   
   3. **窗宽的影响**：窗宽决定了当前点受周围点影响的范围，窗宽变大时，会缩小局部范围内趋势的变化，使得模型向欠拟合方向变化，窗宽变小时，当前点位置的参数会更聚焦于局部范围内的变化，使得模型向过拟合方向变化，如图二，窗宽为3，极小的时候，模型呈严重的过拟合状态，为50，极大的时候，模型呈严重的欠拟合状态，因此需要寻找到合适的窗宽，实践中可以考虑网格搜索最佳的窗宽超参数。
-      <img src="picture2.png" alt="Drawing" style="width: 60%;" align="center"/>
+      <img src="https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/picture2.png" alt="Drawing" style="width: 60%;" align="center"/>
   
   4. **核函数的选取**：核函数的作用是处理加权最小二乘法中的加权部分，不同的核函数对数据的加权不同，对于这里处理的少量一维的mcycle数据集，采用局部性较强的高斯核函数效果较好，在遇到需要加速计算的时候，可以使用计算相对较快的 $Expanechnikov ：\frac{3}{4}(1-u^2)I(|u|<=1)$ ，图三展示了不同的核在mcycle数据集上的表现，可以看到对于一维的简单数据，不同的核的表现都是不错的。
-      <img src="picture3.png" alt="Drawing" style="width: 50%;" align="center"/>
+      <img src="https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/picture3.png" alt="Drawing" style="width: 50%;" align="center"/>
 
 ## 样条回归及多元自适应样条回归
 ---
@@ -90,7 +90,7 @@
     
     3. **样条回归与最小二乘法的关系**：样条回归中利用最小二乘法获得最佳的参数，不同于线性回归对整个模型进行最小二乘，样条回归使用多个最小二乘法分段进行拟合。
     
-    4. **样条回归与局部线性回归的差异**：与局部线性回归不同，局部线性回归是采用滑动窗口+核函数加权的方式处理，每个点都分别进行了加权最小二乘法，计算量大，但曲线更平滑,而样条回归是采用先确定控制节点，在对控制节点内的区间进行最小二乘拟合，相比而言所需的计算量小，但拟合的效果会较差，也会更不平滑，如图六：<img src="picture6.png" alt="Drawing" style="width: 60%;" align="center"/>
+    4. **样条回归与局部线性回归的差异**：与局部线性回归不同，局部线性回归是采用滑动窗口+核函数加权的方式处理，每个点都分别进行了加权最小二乘法，计算量大，但曲线更平滑,而样条回归是采用先确定控制节点，在对控制节点内的区间进行最小二乘拟合，相比而言所需的计算量小，但拟合的效果会较差，也会更不平滑，如图六：<img src="https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/picture6.png" alt="Drawing" style="width: 60%;" align="center"/>
 
 ### 多元自适应回归样条
 * 概述：多元自适应回归样条，Multivariate Adaptive Regression Splines（下文统称MARS）,可以理解为是多维数据集上的样条回归，思路依然是利用基函数划定区域，在区域做回归拟合，可以有效的处理多维数据之间的关系。
@@ -107,7 +107,7 @@
        其中， $K_m$ 是 $B_m$ 的分区数目， $S_{km}$ 的值是1或-1，反应了当前分区使用的多项式的方向，q反映了当前分区使用的多项式的阶，v是预测变量，t是预测变量的值。
     
     分区的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman）：
-    <img src="picture7.png" alt="Drawing" style="width: 90%;" align="center"/>
+    <img src="https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/picture7.png" alt="Drawing" style="width: 90%;" align="center"/>
     
     2. **MARS算法**：经过分区的模型可以被改写为
    
@@ -119,8 +119,8 @@
    
      对于这个模型，分区域进行方差分析，再根据结果进行基函数（分区方式）的选择，最后进行调整，是模型更连续平滑，优化控制节点数目，形成最终的结果。 
       MARS算法的伪代码（引用自Multivariate Adaptive Regression Splines Jerome H. Friedman): 
-      <img src="picture8.png" alt="Drawing" style="width: 80%;" align="center"/>
-      <img src="picture9.png" alt="Drawing" style="width: 60%;" align="center"/>
+      <img src="https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/picture8.png" alt="Drawing" style="width: 80%;" align="center"/>
+      <img src="https://raw.githubusercontent.com/eminentgu/Non-linear_Regression/main/picture9.png" alt="Drawing" style="width: 60%;" align="center"/>
 ## 题一 使用局部多项式回归处理mcycle数据集
 ----
 
